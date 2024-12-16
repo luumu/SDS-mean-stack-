@@ -1,5 +1,5 @@
 # SDS_project
-- Teemu Juura 0509164
+- Teemu Juura 
 - This the course project for Selfstudy: Software development skills -course.  
 - The application simple income/expense logger built using the MEAN stack.
 - Video demo: https://youtu.be/iCnmMCpJ3_E
