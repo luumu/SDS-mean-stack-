@@ -1,0 +1,8 @@
+<h2 class="page-header">Edit</h2>
+<form (submit) = "onEditSubmit(Record)" class="form-group ">
+    <input [(ngModel)]="Record.name" name="name"  class="form-control" type="text" placeholder="Description">
+  <div class="form-group ">
+    <input name="amount" [(ngModel)]="Record.amount" class="form-control" type="number" placeholder="€">
+  </div>
+  <div class="form-group"><input type="submit" class="btn btn-primary" value="Submit"></div>
+</form>

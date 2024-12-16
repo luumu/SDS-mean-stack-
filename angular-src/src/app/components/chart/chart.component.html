@@ -1,0 +1,40 @@
+<h2>Recent activity</h2>
+<div class="row">
+
+<div class="col-md-6">
+<!--<canvas id="canvas">{{chart}}</canvas>-->
+<canvas baseChart
+            [datasets]="lineChartData"
+            [labels]="lineChartLabels"
+            [options]="lineChartOptions"
+            [colors]="lineChartColors"
+            [legend]="lineChartLegend"
+            [chartType]="lineChartType"
+            ></canvas>
+</div>
+<div class="col-md-6">
+  <div class="table-responsive">
+    <table class="table " style="width:100%">
+     <thead>
+        <tr>
+           <th scope="col">Date</th>
+           <th scope="col">Income</th>
+           <th scope="col">Expense</th>
+           <th scope="col" >Diff</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let Record of records| paginate: { itemsPerPage: 7, currentPage: p }">
+           <th >{{Record.date| date:'dd MMM yyyy'}} </th>
+           <th ><span [style.color] = "'green'" >{{Record.income}}</span></th>
+           <th ><span [style.color] = "'red'" >{{Record.expense}}</span></th>
+           <th >{{Record.income + Record.expense}}</th>
+        </tr>
+      </tbody>
+    </table>
+    <div style="display: inline-block">
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+      </div>
+</div>
+  </div>

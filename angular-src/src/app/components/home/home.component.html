@@ -1,0 +1,21 @@
+<div *ngIf = "authService.loggedIn() == false">
+  <div class = "jumbotron text-center">
+    <h1>Income/expense logger</h1>
+  </div>
+    <h2> About</h2>
+    <p>This is a simple income/expense logger made using MEAN stack.</p>
+    <h6>Summary </h6>
+    <p>-Application built using the MEAN-stack</p>
+    <p>-JSON Web Token based authentication</p>
+    <h6>Features</h6>
+    <p>  -Registered users can log in, log out, create, read, update and delete incomes/expemses they own</p>
+    <p>  -Incomes and expenses are displayed in a table and the user can filter and search their incomes/ expenses.</p>
+    <p> -Recent activity displayed in a line chart</p>
+    <h6>  Technologies used</h6>
+    <p>-Node.js</p>
+    <p>-Express.js</p>
+    <p>-MongoDB with Mongoose</p>
+    <p>-Angular 7</p>
+    <p>-Chart.js for displaying data<p>
+</div>
+<app-chart *ngIf = "authService.loggedIn() == true"> </app-chart>

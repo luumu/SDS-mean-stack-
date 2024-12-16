@@ -1,0 +1,88 @@
+<div class="table-responsive">
+<div class="row filterBy">
+    <div class="dropdown show">
+  <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
+  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+    Show
+  </a>
+  <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+    <a class="dropdown-item" [class.active] = "filterBy === 'both'"
+    (click) = "dataDisplayService.filterBy('both')"> All</a>
+    <a class="dropdown-item"  [class.active] = "filterBy === 'income'"
+    (click) = "dataDisplayService.filterBy('income')">Income</a>
+    <a class="dropdown-item"  [class.active] = "filterBy === 'expense'"
+    (click) = "dataDisplayService.filterBy('expense')">Expense</a>
+    <a class="dropdown-item" [class.active] = "filterBy === 'mandatory'"
+    (click) = "dataDisplayService.filterBy('mandatory')">Mandatory</a>
+  </div>
+</div>
+<label>To:</label>
+  <input type="date" [(ngModel)]="dataDisplayService.to_date" name="to_date" >
+  <label>From:</label>
+  <input type="date" [(ngModel)]="dataDisplayService.from_date" name="from_date">
+  <button type="button" class="btn btn-secondary" name="button"
+    [class.active] = "filterBy === 'date'"
+    (click) = "dataDisplayService.filterBy('date')">
+    Filter by date
+  </button>
+
+  <input [(ngModel)] = "dataDisplayService.name" type="search" placeholder="Search by name" aria-label="Search">
+     <button class="btn btn-secondary" (click) = "dataDisplayService.filterBy('name')">Search</button>
+</div>
+<a  (click) = "showAdd()" class="btn btn-default btn-lg">
+   <span *ngIf = "!show; else elseblock">+</span>
+   <span ng-template #elseBlock *ngIf = "show">-</span>
+ </a>
+ <app-income *ngIf="show" ></app-income>
+  <table class="table " style="width:100%">
+   <thead>
+      <tr>
+         <th scope="col" (click) = "dataDisplayService.sortBy('date')">Date</th>
+         <th scope="col" (click) = "dataDisplayService.sortBy('name')">Description</th>
+         <th scope="col" (click) = "dataDisplayService.sortBy('amount')">Amount</th>
+         <th scope="col" >Type</th>
+         <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let Record of dataDisplayService.dataSource | paginate: { itemsPerPage: pageSize, currentPage: p }">
+         <td ><span>{{Record.date| date:'dd MMM yyyy h:mm:ss'}}</span> </td>
+         <td ><span>{{Record.name}}</span></td>
+         <td *ngIf = "Record.isIncome; else elseBlock"><span [style.color] = "getStyle(Record)" >
+           +{{Record.amount}}</span>
+         </td>
+         <td ng-template #elseBlock *ngIf = "!Record.isIncome"><span [style.color] = "getStyle(Record)" >
+           {{Record.amount}}</span>
+         </td>
+         <td *ngIf = "!Record.isIncome; else elseblock" > Expense </td>
+         <td ng-template #elseBlock *ngIf = "Record.isIncome"> Income </td>
+         <td>  <a (click) = 'deleteRecord(Record)'>
+          <span >Delete</span>
+        </a>
+       </td>
+       <td><a [routerLink]="['/editRecord', Record._id]" >
+          <span >Edit</span>
+        </a></td>
+      </tr>
+      <tr>
+        <td></td>
+        <td>Total Income: {{dataDisplayService.totalIncome()}}</td>
+        <td>Total Expenses: {{dataDisplayService.totalExpense()}}</td>
+        <td>Diff: {{dataDisplayService.totalIncome()-dataDisplayService.totalExpense()}}</td>
+        <td>Potential save: {{dataDisplayService.nonMandatory()}}</td>
+      </tr>
+    </tbody>
+</table>
+</div>
+<div class="float-right">
+<div style="display: inline-block">
+  <pagination-controls (pageChange)="p = $event"></pagination-controls>
+</div>
+<div style="display: inline-block">
+  <select class="form-control" [(ngModel)]="pageSize">
+      <option value=10>10</option>
+      <option value=20>20</option>
+      <option value=50>50</option>
+  </select>
+</div>
+</div>
